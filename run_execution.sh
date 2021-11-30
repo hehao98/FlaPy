@@ -133,8 +133,8 @@ tar cJf "${RESULT_DIR}/results.tar.xz" \
 #   "${LOCAL_PROJECT_DIR}/non-deterministic" \
 #   "${LOCAL_PROJECT_DIR}/deterministic"
 cp "${LOCAL_PROJECT_DIR}/execution.log" "${RESULT_DIR}"
-debug_echo "Clean Up"
-rm -rf "${LOCAL_PROJECT_DIR}"
+# debug_echo "Clean Up"
+# rm -rf "${LOCAL_PROJECT_DIR}"
 
 debug_echo "Done"
 

@@ -39,6 +39,6 @@ while IFS=, read PROJECT_NAME PROJECT_URL PROJECT_HASH FUNCS_TO_TRACE TESTS_TO_B
         fi
         mkdir -p "${LOCAL_PROJECT_DIR}"
 
-        ./run_execution.sh "${PROJECT_NAME}" "${PROJECT_URL}" "${PROJECT_HASH}" "${FUNCS_TO_TRACE}" "${TESTS_TO_BE_RUN}" "${NUM_RUNS}" "${LOCAL_PROJECT_DIR}"
+        timeout 1h ./run_execution.sh "${PROJECT_NAME}" "${PROJECT_URL}" "${PROJECT_HASH}" "${FUNCS_TO_TRACE}" "${TESTS_TO_BE_RUN}" "${NUM_RUNS}" "${LOCAL_PROJECT_DIR}"
 
 done <"${CSV_FILE}"

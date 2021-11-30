@@ -207,7 +207,7 @@ class VirtualEnvironment:
         command_list.extend(commands)
         cmd = ";".join(command_list)
         process = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, executable='/bin/bash'
         )
         out, err = process.communicate()
         return out.decode("utf-8"), err.decode("utf-8")
@@ -394,13 +394,15 @@ class PyTestRunner(AbstractRunner):
             env.add_package_for_installation("pytest-cov==2.8.1")
             env.add_package_for_installation("benchexec==3.8")
 
+            """
             command = "runexec --output=/dev/stdout --hidden-dir=/home "  # --container "
             if self._full_access_dir is not None:
                 command += f"--full-access-dir={self._full_access_dir} "
             if self._time_limit > 0:
                 command += f"--timelimit={self._time_limit}s "
             command += "-- "
-
+            """
+            command = ""
             if self._config.trace not in [None, ""]:
                 command += (
                     f'pytest_trace "{self._config.trace}" {self._trace_output_file} '
@@ -423,6 +425,7 @@ class PyTestRunner(AbstractRunner):
             if self._xml_coverage_file is not None:
                 command += f" --cov-report xml:{self._xml_coverage_file}"
 
+            print(command)
             out, err = env.run_commands([command])
             os.chdir(old_dir)
             return out, err
@@ -874,7 +877,7 @@ class FlakyAnalyser:
         logger.addHandler(log_file)
 
         console = logging.StreamHandler()
-        console.setLevel(logging.INFO)
+        console.setLevel(logging.DEBUG)
         console.setFormatter(
             logging.Formatter("[%(levelname)s](%(name)s): %(message)s")
         )
